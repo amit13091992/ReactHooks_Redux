@@ -2,6 +2,7 @@ import remove from 'lodash.remove';
 
 // Action Types
 export const ADD_FOOD_ITEM = 'ADD_FOOD_ITEM';
+export const UPDATE_FOOD_ITEM = 'UPDATE_FOOD_ITEM';
 export const DELETE_FOOD_ITEM = 'DELETE_FOOD_ITEM';
 
 // Action Creators
@@ -11,6 +12,14 @@ export function addItems(item) {
     return {
         type: ADD_FOOD_ITEM,
         id: itemID++,
+        item
+    }
+}
+
+export function updateItems(item) {
+    return {
+        type: UPDATE_FOOD_ITEM,
+        id: item.id,
         item
     }
 }
@@ -41,6 +50,15 @@ function foodItemReducer(state = initialState, action) {
                 return obj.id != action.payload
             })
             return deletedNewArray
+
+        case UPDATE_FOOD_ITEM:
+            return [
+                ...state,
+                {
+                    id: action.id,
+                    item: action.item
+                }
+            ];
 
         default:
             return state

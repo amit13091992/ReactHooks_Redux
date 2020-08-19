@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { TextInput, FAB } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
 import Header from '../components/Header';
 import styles from '../styles/addItems';
+import { updateItems } from '../redux/addItemReducer';
 
-function AddFood({ navigation }) {
-    const [foodName, setFoodName] = useState('')
-    const [foodCalories, setFoodCalories] = useState('')
+function EditItem({ navigation }) {
+    let params = navigation.state.params.item;
+    const [foodName, setFoodName] = useState(params.item.foodName);
+    const [foodCalories, setFoodCalories] = useState(params.item.foodCalories);
+
+    const dispatch = useDispatch();
+    const updateItem = item => dispatch(updateItems(item));
 
     function onItemSaved() {
-        navigation.state.params.addItem({ foodName, foodCalories })
+        let id = params.id;
+        updateItem({ foodName, foodCalories, id })
         navigation.goBack()
     }
+
+    console.log(" *** " + foodName + " " + params.foodName + "  " + foodCalories + " " + params.foodCalories)
 
     return (
         <>
             <Header titleText='Add food Item' />
             <View style={styles.container}>
                 <TextInput
-                    label='Add Food Name'
+                    label='Edit Food Name'
                     value={foodName}
                     mode='outlined'
                     onChangeText={setFoodName}
@@ -27,7 +36,7 @@ function AddFood({ navigation }) {
                 />
 
                 <TextInput
-                    label='Add Food Calories'
+                    label='Edit Food Calories'
                     value={foodCalories}
                     mode='outlined'
                     onChangeText={setFoodCalories}
@@ -39,7 +48,7 @@ function AddFood({ navigation }) {
                     style={styles.fab}
                     small
                     icon='check'
-                    disabled={foodName == '' ? true : false}
+                    disabled={foodName == params.foodName && foodCalories == params.foodCalories ? true : false}
                     onPress={() => onItemSaved()}
                 />
             </View>
@@ -47,4 +56,4 @@ function AddFood({ navigation }) {
     );
 }
 
-export default AddFood;
+export default EditItem;

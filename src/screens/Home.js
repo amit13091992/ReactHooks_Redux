@@ -2,7 +2,7 @@ import React from 'react';
 import { View, FlatList } from 'react-native';
 import { Text, FAB, List } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItems, deleteItems } from '../redux/addItem';
+import { addItems, deleteItems } from '../redux/addItemReducer';
 
 import Header from '../components/Header';
 import styles from '../styles/home';
@@ -30,8 +30,9 @@ function Home({ navigation }) {
                                     description={item.item.foodCalories}
                                     descriptionNumberOfLines={1}
                                     titleStyle={styles.listTitle}
-                                    onPress={() => deleteItem(item.id)}
+                                    onPress={() => navigation.navigate('EditItems', { item })}
                                     left={props => <List.Icon {...props} icon="food" />}
+                                    right={props => <List.Icon {...props} icon="delete" onPress={() => deleteItem(item.id)} />}
                                 />
                             )}
                             keyExtractor={item => item.id.toString()}

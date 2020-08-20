@@ -21,11 +21,9 @@ function EditItem({ navigation }) {
         navigation.goBack()
     }
 
-    console.log(" *** " + foodName + " " + params.foodName + "  " + foodCalories + " " + params.foodCalories)
-
     return (
         <>
-            <Header titleText='Add food Item' />
+            <Header titleText='Edit food Item' />
             <View style={styles.container}>
                 <TextInput
                     label='Edit Food Name'
@@ -48,7 +46,7 @@ function EditItem({ navigation }) {
                     style={styles.fab}
                     small
                     icon='check'
-                    disabled={foodName == params.foodName && foodCalories == params.foodCalories ? true : false}
+                    disabled={foodName == params.item.foodName && foodCalories == params.item.foodCalories ? true : false}
                     onPress={() => onItemSaved()}
                 />
             </View>

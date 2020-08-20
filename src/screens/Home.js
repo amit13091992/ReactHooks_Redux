@@ -13,17 +13,27 @@ function Home({ navigation }) {
     const addItem = item => dispatch(addItems(item));
     const deleteItem = id => dispatch(deleteItems(id));
 
+    function getUniqueListBy(arr, key) {
+        return [...new Map(arr.map(item => [item[key], item])).values()]
+    }
+
+    const newArry = [];
+    listItemsData.map((item) => { newArry.push(item); })
+
+    const filterArray = getUniqueListBy(newArry, 'id')
+    console.log(" filtered Array: " + JSON.stringify(filterArray))
+
     return (
         <>
             <Header titleText='Saved Items' />
             <View style={styles.container}>
-                {listItemsData.length === 0 ? (
+                {filterArray.length === 0 ? (
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>No Saved food Items.</Text>
                     </View>
                 ) : (
                         <FlatList
-                            data={listItemsData}
+                            data={filterArray}
                             renderItem={({ item }) => (
                                 <List.Item
                                     title={item.item.foodName}
